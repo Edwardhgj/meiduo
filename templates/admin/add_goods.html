@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：管理>商品
+</div>
+<div class="pannel">
+
+    <div class="news_review">
+
+        <h3 class="review_title">商品</h3>
+        <form id="form1" enctype="multipart/form-data">
+            <div class="form_group">
+                <label>名称：</label>
+                <input type="text" name="name" class="input_txt2" value="{{ one_goods.name }}" width=100>
+            </div>
+
+            <div class="form_group">
+                <label>描述：</label>
+                <textarea name="describe" id="" cols="50" rows="10">{{ one_goods.describe }}</textarea>
+            </div>
+
+            <div class="form_group">
+                <label>内容：</label>
+                <textarea name="content" id="" cols="50" rows="10">{{ one_goods.content }}</textarea>
+            </div>
+            <div class="form_group">
+                <label>商品图片：</label>
+{#                                <img src="{{ one_goods.picture }}"  width="18px" alt="">#}
+                <input type="file" name="img" class="input_txt2" value="{{ one_goods.picture }}" >
+            </div>
+
+
+            <div class="form_group">
+                <label>库存：</label>
+                <input type="text" name="storage" class="input_txt2" value="{{ one_goods.storage }}" width=100>
+            </div>
+
+
+            <div class="form_group" hidden>
+                <label>锁定库存：</label>
+                <input type="text" name="lock_storage" class="input_txt2" value="{{ one_goods.lock_storage }}" width=100>
+            </div>
+            <div class="form_group">
+                <label>价格：</label>
+                <input type="text" name="price" class="input_txt2" value="{{ one_goods.price }}" width=100>
+            </div>
+
+
+            <input type="" name="id" value="{{ one_goods.id }}">
+
+            <div class="form_group">
+                <label>商品所属分类：</label>
+                <select name="cid_id">
+{#                    <option value="0">顶级分类（修改时不能选顶级分类）</option>#}
+                    {% for i in cates %}
+                        <option value="{{ i.id }}"
+                                {% if one_goods.cid == i.id %}selected{% endif %}>{{ i.name }}</option>
+                    {% endfor %}
+                    {#    {% if cate %}selected{% endif %}#}
+                </select>
+            </div>
+
+           <div class="form_group">
+                <label>所属标签：</label>
+                <select name="tag_id_id">
+                    {% for tag in tag_list %}
+                        <option value="{{ tag.id }}" {% if one_goods.tag_id == tag.id %} selected {% endif %}>{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form_group">
+                <label>评论数：</label>
+                <input type="text" name="t_comment" class="input_txt2" value="{{ one_goods.t_comment }}" width=100>
+            </div>
+
+
+
+
+            <div class="form_group">
+                <label>是否首页推荐：</label>
+
+                <input type="radio" name="is_recommend" value="1" width=100
+                       {% if one_goods.is_recommend == 1 %}checked{% endif %}>是
+                <input type="radio" name="is_recommend" value="0" width=100
+                       {% if one_goods.is_recommend == 0 %}checked{% endif %}>否
+            </div>
+
+            <div class="form_group">
+                <label>数量：</label>
+                <input type="text" name="sales" class="input_txt2" value="{{ one_goods.sales }}" width=100>
+            </div>
+
+
+            <div class="form_group indent_group line_top">
+                <input type="button" value="确定" class="confirm" onclick="addGoods()">
+                <input type="button" value="取消" class="cancel">
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addGoods() {
+
+        $.ajax({
+            url: '/sadmin/submit_addGoods/',
+            type: 'post',
+            cache: false,
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                if (res.code == 200) {
+                    window.location.href = '/sadmin/goodsCate/'
+                }
+            }
+
+        })
+    }
+</script>
+</html>

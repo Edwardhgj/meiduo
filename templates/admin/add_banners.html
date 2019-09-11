@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：标签管理>焦点图
+</div>
+<div class="pannel">
+    <div class="news_review">
+
+        <h3 class="review_title">焦点图</h3>
+        <form id="form1" enctype="multipart/form-data">
+            <div class="form_group">
+                <label>名称：</label>
+
+                <input type="text" name="name" class="input_txt2" value="{{ one_banner.name }}" width=100>
+
+            </div>
+            <input type="hidden" name="id" value="{{ one_banner.id }}">
+
+            <div class="form_group">
+                <label>是否展示：</label>
+
+                <input type="radio" name="is_show" value="1" width=100
+                       {% if one_banner.is_show == 1 %}checked{% endif %}>是
+                <input type="radio" name="is_show" value="0" width=100
+                       {% if one_banner.is_show == 0 %}checked{% endif %}>否
+            </div>
+
+
+            <div class="form_group">
+                <label>排序：</label>
+                <input type="text" name="sort" value="{{ one_banner.sort }}">
+            </div>
+
+
+            <div class="form_group">
+                <label>类型：</label>
+
+                <input type="radio" name="type" value="1" width=100
+                       {% if one_banner.type == 1 %}checked{% endif %}>焦点图
+                <input type="radio" name="type" value="0" width=100
+                       {% if one_banner.type == 0 %}checked{% endif %}>广告图
+            </div>
+
+                <div class="form_group indent_group line_top">
+                    <input type="button" value="确定" class="confirm" onclick="addBanner()">
+                    <input type="button" value="取消" class="cancel">
+
+                </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addBanner() {
+        $.ajax({
+            url: '/sadmin/submit_addBanner/',
+            type: 'post',
+            cache: false,
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false,
+            success:function (res) {
+            if(res.code == 200){
+                window.location.href='/sadmin/bannersCate/'
+            }
+        }
+
+        })
+    }
+</script>
+</html>

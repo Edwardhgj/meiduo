@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <link rel="stylesheet" type="text/css" href='../../static/admin/css/jquery.pagination.css'>
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+    <script src="../../static/admin/js/jquery.pagination.min.js"></script>
+
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：管理>标签管理
+</div>
+<div class="pannel">
+    <table class="common_table">
+
+
+{#        <tr><td width="10%">sdfsdf</td><td width="70%">sdfdff</td><td width="20%"><a href="#">修改</a><a href="#">删除</a></td></tr>#}
+    </table>
+</div>
+<div id="pagination">
+
+</div>
+</body>
+<script>
+getTagList()
+    function getTagList() {
+        $.ajax({
+            url:'/sadmin/TagList',
+            type:'get',
+            dataType:'json',
+            success:function (res) {
+                if(res.code==200){
+
+                    var mes=res.tagList
+
+                    var length=mes.length
+                    var html='<tr>\n' +
+                        '            <td colspan="3"><a href="/sadmin/addTag" class="addtype">增加标签</a></td>\n' +
+                        '        </tr>\n' +
+                        '        <tr>\n' +
+                        '            <th width="10%">id</th>\n' +
+                        '            <th width="70%">类别名称</th>\n' +
+                        '            <th width="20%">管理操作</th>\n' +
+                        '        </tr>'
+
+                    for (var i=0;i<length;i++){
+                        html+='<tr><td width="10%">'+mes[i]['id']+'</td><td width="70%">'+mes[i]['name']+'</td><td width="20%"><a href="/sadmin/addTag?id='+mes[i]['id']+'">修改</a>  <a href="/sadmin/deleteCate?id='+mes[i]['id']+'">删除</a></td></tr>'
+                    }
+                    $('.common_table').html(html)
+
+                }
+            }
+        })
+    }
+{#//分页函数#}
+{#    function page(currentPage, totalPage) {#}
+{#        $('#pagination').pagination({#}
+{#            totalPage: totalPage,#}
+{#            currentPage: currentPage,#}
+{#            callback: function (p) {#}
+{#                getTagslist(p)#}
+{#            }#}
+{#        })#}
+{#    }#}
+</script>
+</html>

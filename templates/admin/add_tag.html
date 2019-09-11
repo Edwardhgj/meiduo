@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：标签管理>标签
+</div>
+<div class="pannel">
+    <div class="news_review">
+
+        <h3 class="review_title">标签</h3>
+        <form id="form1" enctype="multipart/form-data">
+            <div class="form_group">
+                <label>名称：</label>
+
+                <input type="text" name="name" class="input_txt2" value="{{ one_tag.name }}" width=100>
+
+            </div>
+            <input type="hidden" name="id" value="{{ one_tag.id }}">
+
+            <div class="form_group">
+                <label>是否首页推荐：</label>
+
+                <input type="radio" name="is_recommend" value="1" width=100
+                       {% if one_tag.is_recommend == 1 %}checked{% endif %}>是
+                <input type="radio" name="is_recommend" value="0" width=100
+                       {% if one_tag.is_recommend == 0 %}checked{% endif %}>否
+            </div>
+            <div class="form_group">
+                <label>所属分类：</label>
+                <select name="cid">
+                    {% for cate in cate_list %}
+                        <option value="{{ cate.id }}" {% if one_tag.cid_id == cate.id %}selected{% endif %}>{{ cate.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+
+                <div class="form_group indent_group line_top">
+                    <input type="button" value="确定" class="confirm" onclick="addTag()">
+                    <input type="button" value="取消" class="cancel">
+
+                </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addTag() {
+        $.ajax({
+            url: '/sadmin/submit_addTag/',
+            type: 'post',
+            cache: false,
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false,
+            success:function (res) {
+            if(res.code == 200){
+                window.location.href='/sadmin/tagCate/'
+            }
+        }
+
+        })
+    }
+</script>
+</html>

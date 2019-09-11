@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../../static/admin/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="../../static/admin/js/tinymce_setup.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：新闻管理>新闻
+</div>
+<div class="pannel">
+    <div class="news_review">
+
+        <h3 class="review_title">添加新闻</h3>
+        <form id="form1" enctype="multipart/form-data">
+            <div class="form_group">
+                <label>名称：</label>
+
+                <input type="text" name="title" class="input_txt2" value="{{ one_news.title }}" width=100>
+
+            </div>
+            <input type="hidden" name="id" value="{{ one_news.id }}">
+
+
+            <div class="form_group">
+                <label>是否展示：</label>
+
+                <input type="radio" name="is_show" value="1" width=100 {% if one_news.is_show == 1 %}checked{% endif %}>是
+                <input type="radio" name="is_show" value="0" width=100 {% if one_news.is_show == 0 %}checked{% endif %}>否
+            </div>
+
+
+            <div class="form_group">
+                <label>内容：</label>
+                <textarea name="content" id="rich_content" cols="30" rows="10">{{ one_news.content }}</textarea>
+                </div>
+
+
+            <div class="form_group indent_group line_top">
+                <input type="button" value="确定" class="confirm" onclick="addNews()">
+                <input type="button" value="取消" class="cancel">
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+function addNews() {
+    $.ajax({
+        url:'/sadmin/submit_addNews/',
+        type:'post',
+        cache:false,
+        data: new FormData($('#form1')[0]),
+        processData:false,
+        contentType:false,
+        success:function (res) {
+            if(res.code == 200){
+                window.location.href='/sadmin/showNews/'
+            }
+        }
+
+    })
+}
+</script>
+</html>
